@@ -1,10 +1,11 @@
 import { useEffect } from "react";
+import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 import UsersLoadingSkeleton from "./UsersLoadingSkeleton";
-import { useAuthStore } from "../store/useAuthStore";
 
 function ContactList() {
-  const { getAllContacts, allContacts, setSelectedUser, isUsersLoading } = useChatStore();
+  const { getAllContacts, allContacts, setSelectedUser, isUsersLoading } =
+    useChatStore();
   const { onlineUsers } = useAuthStore();
 
   useEffect(() => {
@@ -12,17 +13,24 @@ function ContactList() {
   }, [getAllContacts]);
 
   if (isUsersLoading) return <UsersLoadingSkeleton />;
+  const safeContacts = Array.isArray(allContacts) ? allContacts : [];
 
   return (
     <>
-      {allContacts.map((contact) => (
+      {safeContacts.map((contact) => (
         <div
           key={contact._id}
           className="bg-cyan-500/10 p-4 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors"
-          onClick={() => setSelectedUser(contact)}
-        >
+          onClick={() => setSelectedUser(contact)}>
           <div className="flex items-center gap-3">
-            <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"}`}>
+            <div
+              className={`avatar ${
+                (Array.isArray(onlineUsers) ? onlineUsers : []).includes(
+                  contact._id
+                )
+                  ? "online"
+                  : "offline"
+              }`}>
               <div className="size-12 rounded-full">
                 <img src={contact.profilePic || "/avatar.png"} />
               </div>

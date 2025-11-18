@@ -1,16 +1,39 @@
-import { useState } from "react";
-import { useAuthStore } from "../store/useAuthStore";
+import {
+  LoaderIcon,
+  LockIcon,
+  MailIcon,
+  MessageCircleIcon,
+  UserIcon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
-import { MessageCircleIcon, LockIcon, MailIcon, UserIcon, LoaderIcon } from "lucide-react";
-import { Link } from "react-router";
+import { useAuthStore } from "../store/useAuthStore";
 
 function SignUpPage() {
-  const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
-  const { signup, isSigningUp } = useAuthStore();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+  const { signup, isSigningUp, authUser } = useAuthStore();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // If authUser becomes available, navigate to the home/chat screen.
+  useEffect(() => {
+    if (authUser) navigate("/");
+  }, [authUser, navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    signup(formData);
+    try {
+      await signup(formData);
+      // navigation will happen via the effect when authUser updates; keep this as a fallback
+      if (useAuthStore.getState().authUser) navigate("/");
+    } catch (err) {
+      // errors are handled inside the store (toast). Nothing additional needed here.
+      console.error("Signup error:", err);
+    }
   };
 
   return (
@@ -24,7 +47,9 @@ function SignUpPage() {
                 {/* HEADING TEXT */}
                 <div className="text-center mb-8">
                   <MessageCircleIcon className="w-12 h-12 mx-auto text-slate-400 mb-4" />
-                  <h2 className="text-2xl font-bold text-slate-200 mb-2">Create Account</h2>
+                  <h2 className="text-2xl font-bold text-slate-200 mb-2">
+                    Create Account
+                  </h2>
                   <p className="text-slate-400">Sign up for a new account</p>
                 </div>
 
@@ -39,7 +64,9 @@ function SignUpPage() {
                       <input
                         type="text"
                         value={formData.fullName}
-                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, fullName: e.target.value })
+                        }
                         className="input"
                         placeholder="John Doe"
                       />
@@ -55,7 +82,9 @@ function SignUpPage() {
                       <input
                         type="email"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         className="input"
                         placeholder="johndoe@gmail.com"
                       />
@@ -71,7 +100,9 @@ function SignUpPage() {
                       <input
                         type="password"
                         value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, password: e.target.value })
+                        }
                         className="input"
                         placeholder="Enter your password"
                       />
@@ -79,7 +110,10 @@ function SignUpPage() {
                   </div>
 
                   {/* SUBMIT BUTTON */}
-                  <button className="auth-btn" type="submit" disabled={isSigningUp}>
+                  <button
+                    className="auth-btn"
+                    type="submit"
+                    disabled={isSigningUp}>
                     {isSigningUp ? (
                       <LoaderIcon className="w-full h-5 animate-spin text-center" />
                     ) : (
@@ -105,7 +139,9 @@ function SignUpPage() {
                   className="w-full h-auto object-contain"
                 />
                 <div className="mt-6 text-center">
-                  <h3 className="text-xl font-medium text-cyan-400">Start Your Journey Today</h3>
+                  <h3 className="text-xl font-medium text-cyan-400">
+                    Start Your Journey Today
+                  </h3>
 
                   <div className="mt-4 flex justify-center gap-4">
                     <span className="auth-badge">Free</span>
