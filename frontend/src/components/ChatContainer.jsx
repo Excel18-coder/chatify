@@ -21,6 +21,10 @@ function ChatContainer() {
   const [contextMessage, setContextMessage] = useState(null);
   const [editingMessage, setEditingMessage] = useState(null);
   const longPressTimer = useRef(null);
+  const isTouch =
+    typeof navigator !== "undefined" &&
+    (navigator.maxTouchPoints || navigator.userAgent.includes("Mobile"));
+  const isSmall = typeof window !== "undefined" && window.innerWidth <= 640;
 
   useEffect(() => {
     if (!selectedUser) return;
@@ -94,15 +98,20 @@ function ChatContainer() {
                   onTouchEnd={() => {
                     clearTimeout(longPressTimer.current);
                   }}>
-                  <div className="absolute top-1 right-1">
-                    <MessageOptions
-                      message={msg}
-                      onEdit={(m) => {
-                        setContextMessage(null);
-                        setEditingMessage(m);
-                      }}
-                    />
-                  </div>
+                    {/* For desktop: show the regular MessageOptions menu in the corner.
+                        For touch/small screens we show options only after a long-press
+                        (which sets `contextMessage`) and render a modal for it below. */}
+                    {!isTouch && !isSmall && (
+                      <div className="absolute top-1 right-1">
+                        <MessageOptions
+                          message={msg}
+                          onEdit={(m) => {
+                            setContextMessage(null);
+                            setEditingMessage(m);
+                          }}
+                        />
+                      </div>
+                    )}
                   {msg.image && (
                     <img
                       src={msg.image}
@@ -129,6 +138,19 @@ function ChatContainer() {
             {/* 👇 scroll target */}
             <div ref={messageEndRef} />
           </div>
+  
+              {/* Modal-style inline actions for touch/small screens (opened by long-press) */}
+              {contextMessage && (
+                <MessageOptions
+                  message={contextMessage}
+                  asModal={true}
+                  onEdit={(m) => {
+                    setEditingMessage(m);
+                    setContextMessage(null);
+                  }}
+                />
+              )}
+  
         ) : isMessagesLoading ? (
           <MessagesLoadingSkeleton />
         ) : (
