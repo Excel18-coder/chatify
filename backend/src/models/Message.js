@@ -20,6 +20,9 @@ const messageSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    audio: {
+      type: String,
+    },
     // array of userIds who have deleted this message for themselves
     deletedFor: [
       {

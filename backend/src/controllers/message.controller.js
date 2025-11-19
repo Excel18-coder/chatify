@@ -1,7 +1,21 @@
+import ffmpegStatic from "ffmpeg-static";
+import ffmpeg from "fluent-ffmpeg";
+import fs from "fs/promises";
+import os from "os";
+import path from "path";
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 import Message from "../models/Message.js";
 import User from "../models/User.js";
+
+// Ensure fluent-ffmpeg uses the static binary
+if (ffmpegStatic) {
+  try {
+    ffmpeg.setFfmpegPath(ffmpegStatic);
+  } catch (e) {
+    console.warn("Could not set ffmpeg path:", e.message || e);
+  }
+}
 
 export const getAllContacts = async (req, res) => {
   try {
@@ -64,7 +78,7 @@ export const getMessagesByUserId = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { text, image } = req.body;
+    const { text, image, audio } = req.body;
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
@@ -88,11 +102,81 @@ export const sendMessage = async (req, res) => {
       imageUrl = uploadResponse.secure_url;
     }
 
+    let audioUrl;
+    if (audio) {
+      // if audio is a data URL (base64), convert to a normalized mp3 using ffmpeg
+      try {
+        let uploadTarget = audio;
+
+        // helper to write base64 dataURL to temp file
+        const writeBase64ToFile = async (dataUrl, outPath) => {
+          const match = dataUrl.match(/^data:(.+);base64,(.+)$/);
+          if (!match) throw new Error("Invalid data URL");
+          const b64 = match[2];
+          const buf = Buffer.from(b64, "base64");
+          await fs.writeFile(outPath, buf);
+        };
+
+        // If it's a data URL - convert it
+        if (typeof audio === "string" && audio.startsWith("data:")) {
+          const tmpDir = await fs.mkdtemp(
+            path.join(os.tmpdir(), "chat-audio-")
+          );
+          const inPath = path.join(tmpDir, "in_audio");
+          // guess extension from mime
+          const mimeMatch = audio.match(/^data:(.+);base64,/);
+          const mime = mimeMatch ? mimeMatch[1] : "audio/webm";
+          const ext = mime.includes("ogg")
+            ? "ogg"
+            : mime.includes("wav")
+            ? "wav"
+            : "webm";
+          const inFile = inPath + "." + ext;
+          const outFile = path.join(tmpDir, "out.mp3");
+          await writeBase64ToFile(audio, inFile);
+
+          // run ffmpeg to convert to mp3 (widely compatible)
+          await new Promise((resolve, reject) => {
+            ffmpeg(inFile)
+              .noVideo()
+              .audioCodec("libmp3lame")
+              .format("mp3")
+              .on("end", resolve)
+              .on("error", (err) => {
+                console.error("ffmpeg error:", err);
+                reject(err);
+              })
+              .save(outFile);
+          });
+
+          // upload converted file
+          const uploadResponse = await cloudinary.uploader.upload(outFile, {
+            resource_type: "video",
+          });
+          audioUrl = uploadResponse.secure_url;
+
+          // cleanup temp files
+          try {
+            await fs.rm(tmpDir, { recursive: true, force: true });
+          } catch (e) {}
+        } else {
+          // non-data URL (already a remote URL or Cloudinary link) - upload directly
+          const uploadResponse = await cloudinary.uploader.upload(audio, {
+            resource_type: "video",
+          });
+          audioUrl = uploadResponse.secure_url;
+        }
+      } catch (err) {
+        console.error("Audio processing/upload failed:", err.message || err);
+      }
+    }
+
     const newMessage = new Message({
       senderId,
       receiverId,
       text,
       image: imageUrl,
+      audio: audioUrl,
     });
 
     const saved = await newMessage.save();
@@ -220,6 +304,55 @@ export const deleteMessage = async (req, res) => {
     return res.status(200).json({ message: "Deleted for you" });
   } catch (error) {
     console.error("Error in deleteMessage: ", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const updateMessage = async (req, res) => {
+  try {
+    const { id: messageId } = req.params;
+    const { text } = req.body;
+    const userId = req.user._id;
+
+    if (!text || typeof text !== "string")
+      return res.status(400).json({ message: "Text is required to edit" });
+
+    const message = await Message.findById(messageId);
+    if (!message) return res.status(404).json({ message: "Message not found" });
+
+    // only sender can edit
+    if (message.senderId.toString() !== userId.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Only sender can edit the message" });
+    }
+
+    message.text = text;
+    await message.save();
+
+    const payload = {
+      _id: message._id,
+      senderId: message.senderId,
+      receiverId: message.receiverId,
+      text: message.text,
+      image: message.image,
+      createdAt: message.createdAt,
+      updatedAt: message.updatedAt,
+    };
+
+    // notify both participants
+    io.to(getReceiverSocketId(message.receiverId)).emit(
+      "messageUpdated",
+      payload
+    );
+    io.to(getReceiverSocketId(message.senderId)).emit(
+      "messageUpdated",
+      payload
+    );
+
+    res.status(200).json(payload);
+  } catch (error) {
+    console.error("Error in updateMessage:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -47,6 +47,33 @@ io.on("connection", (socket) => {
     delete userSocketMap[userId];
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
+
+  // WebRTC signaling: forward offer/answer/candidates to receiver
+  socket.on("call:offer", ({ to, sdp }) => {
+    const target = userSocketMap[to];
+    if (target) {
+      io.to(target).emit("call:incoming", { from: userId, sdp });
+    }
+  });
+
+  socket.on("call:answer", ({ to, sdp }) => {
+    const target = userSocketMap[to];
+    if (target) {
+      io.to(target).emit("call:answered", { from: userId, sdp });
+    }
+  });
+
+  socket.on("call:candidate", ({ to, candidate }) => {
+    const target = userSocketMap[to];
+    if (target) {
+      io.to(target).emit("call:candidate", { from: userId, candidate });
+    }
+  });
+
+  socket.on("call:hangup", ({ to }) => {
+    const target = userSocketMap[to];
+    if (target) io.to(target).emit("call:hangup", { from: userId });
+  });
 });
 
 export { app, io, server };

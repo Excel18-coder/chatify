@@ -35,6 +35,16 @@ export const useAuthStore = create((set, get) => ({
     set({ isSigningUp: true });
     try {
       const res = await axiosInstance.post("/auth/signup", data);
+      // Persist token for WebView/mobile fallback and attach to axios
+      if (res.data?.token) {
+        try {
+          localStorage.setItem("token", res.data.token);
+        } catch (err) {
+          // ignore localStorage errors
+        }
+        axiosInstance.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+      }
+
       set({ authUser: res.data });
 
       toast.success("Account created successfully!");
@@ -54,6 +64,14 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
+      // Persist token for WebView/mobile fallback and attach to axios
+      if (res.data?.token) {
+        try {
+          localStorage.setItem("token", res.data.token);
+        } catch (err) {}
+        axiosInstance.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+      }
+
       set({ authUser: res.data });
 
       toast.success("Logged in successfully");
@@ -74,6 +92,11 @@ export const useAuthStore = create((set, get) => ({
     try {
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
+      try {
+        localStorage.removeItem("token");
+      } catch (err) {}
+      if (axiosInstance.defaults.headers?.common)
+        delete axiosInstance.defaults.headers.common.Authorization;
       toast.success("Logged out successfully");
       get().disconnectSocket();
     } catch (error) {
@@ -101,7 +124,14 @@ export const useAuthStore = create((set, get) => ({
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
 
+    // Prefer cookie-based auth, but also send token in auth payload for mobile
+    // WebViews which sometimes do not persist cookies.
+    const token =
+      authUser?.token ||
+      (typeof window !== "undefined" && localStorage.getItem("token"));
+
     const socket = io(BACKEND_URL, {
+      auth: token ? { token } : undefined,
       withCredentials: true, // ensures cookies are sent with the connection
       transports: ["websocket", "polling"],
     });

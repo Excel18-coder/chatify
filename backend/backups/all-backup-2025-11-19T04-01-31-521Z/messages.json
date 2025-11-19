@@ -1,0 +1,576 @@
+[
+  {
+    "_id": "691c2ae1d76e0b289816f40c",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Hae",
+    "createdAt": "2025-11-18T08:14:25.265Z",
+    "updatedAt": "2025-11-18T08:14:25.265Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2b16d76e0b289816f41a",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "sasa beby gal",
+    "createdAt": "2025-11-18T08:15:18.715Z",
+    "updatedAt": "2025-11-18T08:15:18.715Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2b22d76e0b289816f41e",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Nakupenda my love",
+    "createdAt": "2025-11-18T08:15:30.960Z",
+    "updatedAt": "2025-11-18T08:15:30.960Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2b49d76e0b289816f429",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "",
+    "image": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763453768/rpfkajkewsll2fikoiqv.jpg",
+    "createdAt": "2025-11-18T08:16:09.335Z",
+    "updatedAt": "2025-11-18T08:16:09.335Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2c72d76e0b289816f439",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "c ucome uku kwangu hivi",
+    "createdAt": "2025-11-18T08:21:06.412Z",
+    "updatedAt": "2025-11-18T08:21:06.412Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2cbfd76e0b289816f444",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Sio Sahi but nacome",
+    "createdAt": "2025-11-18T08:22:23.607Z",
+    "updatedAt": "2025-11-18T08:22:23.607Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2d6dd76e0b289816f448",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "wacha ufala babe",
+    "createdAt": "2025-11-18T08:25:17.508Z",
+    "updatedAt": "2025-11-18T08:25:17.508Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2df3d76e0b289816f44c",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Kama hutaki nikuje wacha tu",
+    "createdAt": "2025-11-18T08:27:31.077Z",
+    "updatedAt": "2025-11-18T08:27:31.077Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2fc0d76e0b289816f465",
+    "senderId": "691c2facd76e0b289816f458",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Hey",
+    "createdAt": "2025-11-18T08:35:12.672Z",
+    "updatedAt": "2025-11-18T08:35:12.672Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2ffdd76e0b289816f46f",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c2facd76e0b289816f458",
+    "text": "Hae babe",
+    "createdAt": "2025-11-18T08:36:13.962Z",
+    "updatedAt": "2025-11-18T08:36:13.962Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c301cd76e0b289816f473",
+    "senderId": "691c2facd76e0b289816f458",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Hey",
+    "createdAt": "2025-11-18T08:36:44.327Z",
+    "updatedAt": "2025-11-18T08:36:44.327Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c302dd76e0b289816f477",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c2facd76e0b289816f458",
+    "text": "ndio huyo boy wako",
+    "image": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763455021/otfrol9zfozt15e2n70b.jpg",
+    "createdAt": "2025-11-18T08:37:01.817Z",
+    "updatedAt": "2025-11-18T08:37:01.817Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c3060d76e0b289816f47d",
+    "senderId": "691c2facd76e0b289816f458",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "😂😂 Ako fty",
+    "createdAt": "2025-11-18T08:37:52.514Z",
+    "updatedAt": "2025-11-18T08:37:52.514Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c30a8d76e0b289816f481",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c2facd76e0b289816f458",
+    "text": "wazi uendelee tu kum,penda",
+    "createdAt": "2025-11-18T08:39:04.862Z",
+    "updatedAt": "2025-11-18T08:39:04.862Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c318ed76e0b289816f493",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c2facd76e0b289816f458",
+    "text": "Hae",
+    "createdAt": "2025-11-18T08:42:54.915Z",
+    "updatedAt": "2025-11-18T08:42:54.915Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c55fad76e0b289816f4b3",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Hello",
+    "createdAt": "2025-11-18T11:18:18.108Z",
+    "updatedAt": "2025-11-18T11:18:18.108Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5636d76e0b289816f4c2",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Noma",
+    "createdAt": "2025-11-18T11:19:18.021Z",
+    "updatedAt": "2025-11-18T11:19:18.021Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5648d76e0b289816f4c6",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Are you there my son",
+    "createdAt": "2025-11-18T11:19:36.312Z",
+    "updatedAt": "2025-11-18T11:19:36.312Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5668d76e0b289816f4ce",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Whats up son of David",
+    "createdAt": "2025-11-18T11:20:08.712Z",
+    "updatedAt": "2025-11-18T11:20:08.712Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5677d76e0b289816f4d2",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Ndio hiyo kahenne",
+    "image": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763464823/vjepmpfgw245ofo1aohr.jpg",
+    "createdAt": "2025-11-18T11:20:23.937Z",
+    "updatedAt": "2025-11-18T11:20:23.937Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c568bd76e0b289816f4d6",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Mii nataka GLE hizi ni nini sasa",
+    "createdAt": "2025-11-18T11:20:43.810Z",
+    "updatedAt": "2025-11-18T11:20:43.810Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c56a7d76e0b289816f4da",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "😂😂 hiyo ngojea 2300 dollars",
+    "createdAt": "2025-11-18T11:21:11.662Z",
+    "updatedAt": "2025-11-18T11:21:11.662Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c56d7d76e0b289816f4de",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Sai nangoja tu...ngoja huku sasa ni wapi",
+    "image": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763464919/wcyng4cvsn7fi5qufh1w.jpg",
+    "createdAt": "2025-11-18T11:21:59.503Z",
+    "updatedAt": "2025-11-18T11:21:59.503Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c570ed76e0b289816f4e4",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "😂😂wacha hizo buana,, hapa nilikuwa sherehe fulani huko quiver",
+    "createdAt": "2025-11-18T11:22:54.913Z",
+    "updatedAt": "2025-11-18T11:22:54.913Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c571ed76e0b289816f4e8",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Una test product😁",
+    "createdAt": "2025-11-18T11:23:10.212Z",
+    "updatedAt": "2025-11-18T11:23:10.212Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c572fd76e0b289816f4ec",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "😂😂 eehe testing 123",
+    "createdAt": "2025-11-18T11:23:27.714Z",
+    "updatedAt": "2025-11-18T11:23:27.714Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5739d76e0b289816f4f0",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Nasema hapa penye tunachat ama naongea na afande",
+    "createdAt": "2025-11-18T11:23:37.413Z",
+    "updatedAt": "2025-11-18T11:23:37.413Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5751d76e0b289816f4f4",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Ni kazuri lkn compatibility ndio issue",
+    "createdAt": "2025-11-18T11:24:01.367Z",
+    "updatedAt": "2025-11-18T11:24:01.367Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5756d76e0b289816f4f8",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Hapa penye tunachat tu nafanya testing",
+    "createdAt": "2025-11-18T11:24:06.409Z",
+    "updatedAt": "2025-11-18T11:24:06.409Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5774d76e0b289816f4fc",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Naona mko tu wawili, ni mapenzi mnafanyianga huku😂😂",
+    "createdAt": "2025-11-18T11:24:36.417Z",
+    "updatedAt": "2025-11-18T11:24:36.417Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5777d76e0b289816f500",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Najaribu kufix mtu mwenye nafuatilia youtube alikuwa anaunda ya lappy",
+    "createdAt": "2025-11-18T11:24:39.661Z",
+    "updatedAt": "2025-11-18T11:24:39.661Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5792d76e0b289816f504",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Hii sio yako🤔",
+    "createdAt": "2025-11-18T11:25:06.118Z",
+    "updatedAt": "2025-11-18T11:25:06.118Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c57c1d76e0b289816f508",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "N yangu but sasa kuna vitu nilikuwa naangalia kwa channel fulani huko youtube kama we sockets za realtime hivi",
+    "createdAt": "2025-11-18T11:25:53.011Z",
+    "updatedAt": "2025-11-18T11:25:53.011Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5804d76e0b289816f514",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Kako best walai adi kanatoa masauti niki type buana",
+    "createdAt": "2025-11-18T11:27:00.066Z",
+    "updatedAt": "2025-11-18T11:27:00.066Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5812d76e0b289816f518",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Its like am hacking",
+    "createdAt": "2025-11-18T11:27:14.962Z",
+    "updatedAt": "2025-11-18T11:27:14.962Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5818d76e0b289816f51c",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Na pia unaweza mute hapo juu😂",
+    "createdAt": "2025-11-18T11:27:20.771Z",
+    "updatedAt": "2025-11-18T11:27:20.771Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5828d76e0b289816f525",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Napenda tu izo kelele",
+    "createdAt": "2025-11-18T11:27:36.219Z",
+    "updatedAt": "2025-11-18T11:27:36.219Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5854d76e0b289816f534",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Imebidi nieke desktop mode",
+    "image": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763465299/ywtvid02vvjx6vngkal0.jpg",
+    "createdAt": "2025-11-18T11:28:20.519Z",
+    "updatedAt": "2025-11-18T11:28:20.519Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c587ed76e0b289816f538",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Ushaweka profile😂 eehe kwa desktop iko sawa kabisa mobile ndio nimeshinda nikijaribu hapa penye nimefika sasa i need help",
+    "createdAt": "2025-11-18T11:29:02.409Z",
+    "updatedAt": "2025-11-18T11:29:02.409Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c58a1d76e0b289816f543",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Umetumia framework gani",
+    "createdAt": "2025-11-18T11:29:37.919Z",
+    "updatedAt": "2025-11-18T11:29:37.919Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c58b5d76e0b289816f547",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Pure JavaScript html na css tu",
+    "createdAt": "2025-11-18T11:29:57.414Z",
+    "updatedAt": "2025-11-18T11:29:57.414Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c58bcd76e0b289816f54b",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "No framework",
+    "createdAt": "2025-11-18T11:30:04.959Z",
+    "updatedAt": "2025-11-18T11:30:04.959Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c58dcd76e0b289816f54f",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Eish noma sana. Hata siski kutoka huku",
+    "createdAt": "2025-11-18T11:30:36.960Z",
+    "updatedAt": "2025-11-18T11:30:36.960Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5910d76e0b289816f553",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Hii n hatari sasa nataka niiweke ikuwe mobile app alafu functionality mingi zitakuja baadae",
+    "createdAt": "2025-11-18T11:31:28.960Z",
+    "updatedAt": "2025-11-18T11:31:28.960Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c592dd76e0b289816f557",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Nice... Need",
+    "createdAt": "2025-11-18T11:31:57.410Z",
+    "updatedAt": "2025-11-18T11:31:57.410Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c594ad76e0b289816f55b",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Kako private ka hell",
+    "createdAt": "2025-11-18T11:32:26.212Z",
+    "updatedAt": "2025-11-18T11:32:26.212Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c596bd76e0b289816f55f",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Wacha nioge nitakupea repo ucheki,,kama uko na idea we can implement",
+    "createdAt": "2025-11-18T11:32:59.513Z",
+    "updatedAt": "2025-11-18T11:32:59.513Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c59a5d76e0b289816f572",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Haina ile papa",
+    "createdAt": "2025-11-18T11:33:57.820Z",
+    "updatedAt": "2025-11-18T11:33:57.820Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c59aed76e0b289816f576",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "wooza",
+    "createdAt": "2025-11-18T11:34:06.908Z",
+    "updatedAt": "2025-11-18T11:34:06.908Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c59c7d76e0b289816f57a",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "Hii ni mzuri buana na like watu wengine wale wanatumia wanaeza ona chats",
+    "createdAt": "2025-11-18T11:34:31.815Z",
+    "updatedAt": "2025-11-18T11:34:31.815Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c59d1d76e0b289816f580",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "imeshinda hata telegram",
+    "createdAt": "2025-11-18T11:34:41.059Z",
+    "updatedAt": "2025-11-18T11:34:41.059Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c59e0d76e0b289816f584",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "oga afu we shall discuss after CAT",
+    "createdAt": "2025-11-18T11:34:56.567Z",
+    "updatedAt": "2025-11-18T11:34:56.567Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5a10d76e0b289816f58a",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "fuuck CAT!!",
+    "createdAt": "2025-11-18T11:35:44.906Z",
+    "updatedAt": "2025-11-18T11:35:44.906Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5a20d76e0b289816f58e",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "kwani umetoka huko kwingiine",
+    "createdAt": "2025-11-18T11:36:00.814Z",
+    "updatedAt": "2025-11-18T11:36:00.814Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5a36d76e0b289816f592",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "eehe nilikuwa nimeunda account mbili",
+    "createdAt": "2025-11-18T11:36:22.710Z",
+    "updatedAt": "2025-11-18T11:36:22.710Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c5a3cd76e0b289816f596",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c95a8f358efaa3377ba60",
+    "text": "Normalize composing yourself, CAt sio kitu ya kustua",
+    "createdAt": "2025-11-18T11:36:28.512Z",
+    "updatedAt": "2025-11-18T11:36:28.512Z",
+    "__v": 0
+  },
+  {
+    "_id": "691ca35cd76e0b289816f5b8",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Biy",
+    "createdAt": "2025-11-18T16:48:28.713Z",
+    "updatedAt": "2025-11-18T16:48:28.713Z",
+    "__v": 0
+  },
+  {
+    "_id": "691ca36fd76e0b289816f5bc",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Anko",
+    "createdAt": "2025-11-18T16:48:47.313Z",
+    "updatedAt": "2025-11-18T16:48:47.313Z",
+    "__v": 0
+  },
+  {
+    "_id": "691ca3a6d76e0b289816f5c0",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Nimekuwa offline I want to be an app ndio ikuwe sawa wacha nikutumie link ya repo",
+    "createdAt": "2025-11-18T16:49:42.110Z",
+    "updatedAt": "2025-11-18T16:49:42.110Z",
+    "__v": 0
+  },
+  {
+    "_id": "691ca3f8d76e0b289816f5cd",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Naweza ona kila mtu mwenye ako kwa network but cwezi ona chat zao na mtu mwingine niliisolate chat containers",
+    "createdAt": "2025-11-18T16:51:04.216Z",
+    "updatedAt": "2025-11-18T16:51:04.216Z",
+    "__v": 0
+  },
+  {
+    "_id": "691ca437d76e0b289816f5d3",
+    "senderId": "691c2ac8d76e0b289816f400",
+    "receiverId": "691c55ded76e0b289816f49e",
+    "text": "Then ukitaka kujua mtu ako online hiyo dot inawaka green",
+    "createdAt": "2025-11-18T16:52:07.015Z",
+    "updatedAt": "2025-11-18T16:52:07.015Z",
+    "__v": 0
+  },
+  {
+    "_id": "691cb056d581538360e7e146",
+    "senderId": "691c55ded76e0b289816f49e",
+    "receiverId": "691c2ac8d76e0b289816f400",
+    "text": "adi inasema online ama kama ako offline pia inasema",
+    "createdAt": "2025-11-18T17:43:50.658Z",
+    "updatedAt": "2025-11-18T17:43:50.658Z",
+    "__v": 0
+  },
+  {
+    "_id": "691cbfebf265158e71378257",
+    "senderId": "691c95a8f358efaa3377ba60",
+    "receiverId": "691cb1d02d737ec76fd9971c",
+    "text": "hae",
+    "deletedFor": [],
+    "deletedForEveryone": false,
+    "createdAt": "2025-11-18T18:50:19.430Z",
+    "updatedAt": "2025-11-18T18:50:19.430Z",
+    "__v": 0
+  }
+]

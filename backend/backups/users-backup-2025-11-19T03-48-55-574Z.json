@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "691c95a8f358efaa3377ba60",
+    "email": "excel6737@gmail.com",
+    "fullName": "Excel baraka",
+    "password": "$2a$10$pF59NILSir4Ftu46m3eoVe9NDUuVgK.AFoZSrXGJbsh/bD3gSNe.a",
+    "profilePic": "",
+    "createdAt": "2025-11-18T15:50:00.311Z",
+    "updatedAt": "2025-11-18T15:50:00.311Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2ac8d76e0b289816f400",
+    "email": "excel5368@gmail.com",
+    "fullName": "Natasha faith",
+    "password": "$2a$10$C865lsFwj.ZolcqLzuT8rewip5LD7nrvG2MnN0P.WkeZW5siMuoAS",
+    "profilePic": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763454688/l9ux5fy8cvk5yxfkb7lx.jpg",
+    "createdAt": "2025-11-18T08:14:00.719Z",
+    "updatedAt": "2025-11-18T08:31:28.891Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c2facd76e0b289816f458",
+    "email": "faithnatasha85@gmail.com",
+    "fullName": "Faith Natasha ",
+    "password": "$2a$10$uwnNHtetX29/Rf2ZJrijnu9rsIQhdsNa8IlgVsXNyqvcQZmDL0L/u",
+    "profilePic": "",
+    "createdAt": "2025-11-18T08:34:52.998Z",
+    "updatedAt": "2025-11-18T08:34:52.998Z",
+    "__v": 0
+  },
+  {
+    "_id": "691c55ded76e0b289816f49e",
+    "email": "sunnyson2345@gmail.com",
+    "fullName": "Sun son",
+    "password": "$2a$10$V94isdMZskQFNOQtYHZpyeao4kVwqxF7PD7nzLhH/F/5D4PgyLb5e",
+    "profilePic": "https://res.cloudinary.com/dzwdogsvg/image/upload/v1763465187/khrlmeat50u93scsqxi4.jpg",
+    "createdAt": "2025-11-18T11:17:50.811Z",
+    "updatedAt": "2025-11-18T11:26:27.678Z",
+    "__v": 0
+  },
+  {
+    "_id": "691cb19b2d737ec76fd99719",
+    "email": "d@gmail.com",
+    "fullName": "Exc gh",
+    "password": "$2a$10$V9ADcdYB034m.5apqsbQXOcqp4JhCzQjRvwRP7edj9yO0VAnrnUki",
+    "profilePic": "",
+    "createdAt": "2025-11-18T17:49:15.778Z",
+    "updatedAt": "2025-11-18T17:49:15.778Z",
+    "__v": 0
+  },
+  {
+    "_id": "691cb1d02d737ec76fd9971c",
+    "email": "test@gmail.com",
+    "fullName": "Test data",
+    "password": "$2a$10$.lGYCc1fMYAjalAOab13.e8FHrpwupGwK/NXDcPY11JmhgHp54IRa",
+    "profilePic": "",
+    "createdAt": "2025-11-18T17:50:08.674Z",
+    "updatedAt": "2025-11-18T17:50:08.674Z",
+    "__v": 0
+  }
+]

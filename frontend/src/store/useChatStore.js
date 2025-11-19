@@ -112,6 +112,24 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+  updateMessage: async (messageId, text) => {
+    try {
+      const { messages } = get();
+      const res = await axiosInstance.put(`/messages/${messageId}`, { text });
+      // update local messages array
+      set({
+        messages: messages.map((m) =>
+          m._id === messageId
+            ? { ...m, text: res.data.text, updatedAt: res.data.updatedAt }
+            : m
+        ),
+      });
+    } catch (error) {
+      console.error("Error updating message:", error);
+      toast.error(error?.response?.data?.message || "Could not update message");
+    }
+  },
+
   subscribeToMessages: () => {
     const { selectedUser, isSoundEnabled } = get();
     if (!selectedUser) return;
@@ -168,6 +186,18 @@ export const useChatStore = create((set, get) => ({
           set({ messages: messages.filter((m) => m._id !== messageId) });
         }
       }
+    });
+
+    socket.on("messageUpdated", (updated) => {
+      const { messages } = get();
+      if (!updated || !updated._id) return;
+      set({
+        messages: messages.map((m) =>
+          m._id === updated._id
+            ? { ...m, text: updated.text, updatedAt: updated.updatedAt }
+            : m
+        ),
+      });
     });
   },
 
