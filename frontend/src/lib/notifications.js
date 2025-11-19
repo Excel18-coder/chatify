@@ -48,8 +48,9 @@ export async function notify(title, body) {
 
   try {
     if (typeof Notification !== "undefined") {
-      if (Notification.permission !== "granted")
-        await Notification.requestPermission();
+      // Do NOT request permission here — browsers require requestPermission to be
+      // called from a short-lived user gesture. Only show notifications if
+      // permission was already granted.
       if (Notification.permission === "granted") {
         new Notification(title, { body });
         return true;

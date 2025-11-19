@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
@@ -53,9 +53,11 @@ function ChatContainer() {
   }, [messages]);
 
   return (
-    <>
-      <ChatHeader />
-      <div className="flex-1 px-6 overflow-y-auto py-8">
+    <div className="flex flex-col h-full min-h-0">
+      <div className="flex-none">
+        <ChatHeader />
+      </div>
+      <div className="flex-1 px-4 md:px-6 overflow-y-auto py-4 md:py-8 min-h-0">
         {Array.isArray(messages) &&
         messages.length > 0 &&
         !isMessagesLoading ? (
@@ -134,8 +136,10 @@ function ChatContainer() {
         )}
       </div>
 
-      <MessageInput />
-    </>
+      <div className="flex-none px-4 md:px-6 py-3 bg-slate-900/50">
+        <MessageInput />
+      </div>
+    </div>
   );
 }
 

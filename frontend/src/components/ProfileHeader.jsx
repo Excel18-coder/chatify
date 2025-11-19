@@ -1,5 +1,12 @@
-import { useState, useRef } from "react";
-import { LogOutIcon, VolumeOffIcon, Volume2Icon } from "lucide-react";
+import {
+  BellIcon,
+  BellOffIcon,
+  LogOutIcon,
+  Volume2Icon,
+  VolumeOffIcon,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { notify, requestNotificationPermission } from "../lib/notifications";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 
@@ -9,6 +16,20 @@ function ProfileHeader() {
   const { logout, authUser, updateProfile } = useAuthStore();
   const { isSoundEnabled, toggleSound } = useChatStore();
   const [selectedImg, setSelectedImg] = useState(null);
+  const [notifStatus, setNotifStatus] = useState(() => {
+    if (typeof Notification !== "undefined") return Notification.permission;
+    return "default";
+  });
+
+  useEffect(() => {
+    // keep in sync if permission changes elsewhere
+    const handle = () => {
+      if (typeof Notification !== "undefined")
+        setNotifStatus(Notification.permission);
+    };
+    window.addEventListener("focus", handle);
+    return () => window.removeEventListener("focus", handle);
+  }, []);
 
   const fileInputRef = useRef(null);
 
@@ -34,8 +55,7 @@ function ProfileHeader() {
           <div className="avatar online">
             <button
               className="size-14 rounded-full overflow-hidden relative group"
-              onClick={() => fileInputRef.current.click()}
-            >
+              onClick={() => fileInputRef.current.click()}>
               <img
                 src={selectedImg || authUser.profilePic || "/avatar.png"}
                 alt="User image"
@@ -67,11 +87,39 @@ function ProfileHeader() {
 
         {/* BUTTONS */}
         <div className="flex gap-4 items-center">
+          {/* NOTIFICATIONS */}
+          <button
+            onClick={async () => {
+              // request permission from inside user gesture
+              const granted = await requestNotificationPermission();
+              if (granted) {
+                setNotifStatus("granted");
+                try {
+                  await notify(
+                    "Notifications enabled",
+                    "You'll receive chat alerts."
+                  );
+                } catch (e) {}
+              } else {
+                setNotifStatus("denied");
+              }
+            }}
+            className="text-slate-400 hover:text-slate-200 transition-colors"
+            title={
+              notifStatus === "granted"
+                ? "Notifications enabled"
+                : "Enable notifications"
+            }>
+            {notifStatus === "granted" ? (
+              <BellIcon className="size-5" />
+            ) : (
+              <BellOffIcon className="size-5" />
+            )}
+          </button>
           {/* LOGOUT BTN */}
           <button
             className="text-slate-400 hover:text-slate-200 transition-colors"
-            onClick={logout}
-          >
+            onClick={logout}>
             <LogOutIcon className="size-5" />
           </button>
 
@@ -81,10 +129,11 @@ function ProfileHeader() {
             onClick={() => {
               // play click sound before toggling
               mouseClickSound.currentTime = 0; // reset to start
-              mouseClickSound.play().catch((error) => console.log("Audio play failed:", error));
+              mouseClickSound
+                .play()
+                .catch((error) => console.log("Audio play failed:", error));
               toggleSound();
-            }}
-          >
+            }}>
             {isSoundEnabled ? (
               <Volume2Icon className="size-5" />
             ) : (
