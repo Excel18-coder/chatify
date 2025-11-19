@@ -82,8 +82,10 @@ export const sendMessage = async (req, res) => {
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
-    if (!text && !image) {
-      return res.status(400).json({ message: "Text or image is required." });
+    if (!text && !image && !audio) {
+      return res
+        .status(400)
+        .json({ message: "Text, image, or audio is required." });
     }
     if (senderId.equals(receiverId)) {
       return res
@@ -189,6 +191,7 @@ export const sendMessage = async (req, res) => {
       receiverId: saved.receiverId,
       text: saved.text,
       image: saved.image,
+      audio: saved.audio,
       createdAt: saved.createdAt,
       updatedAt: saved.updatedAt,
       senderName: sender?.fullName || null,

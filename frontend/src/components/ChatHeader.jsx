@@ -59,6 +59,7 @@ function ChatHeader() {
 
     socket.on("call:incoming", async ({ from, sdp }) => {
       // incoming call from 'from'
+      console.log("📞 Incoming call from:", from);
       incomingFromRef.current = from;
       setCallState("incoming");
       // store remote sdp until accepted
@@ -67,13 +68,15 @@ function ChatHeader() {
 
     socket.on("call:answered", async ({ from, sdp }) => {
       try {
+        console.log("✅ Call answered by:", from);
         if (pcRef.current && sdp) {
           await pcRef.current.setRemoteDescription({ type: "answer", sdp });
+          console.log("🔗 Remote description set, call is in progress");
           // when remote answer arrives, connection will proceed — mark as in-call
           setCallState("in-call");
         }
       } catch (err) {
-        console.error(err);
+        console.error("❌ Error handling call answer:", err);
       }
     });
 
@@ -128,21 +131,26 @@ function ChatHeader() {
 
   const startCall = async () => {
     if (!socket || !selectedUser) return;
+    console.log("📞 Starting call to:", selectedUser.fullName);
     setCallState("calling");
     try {
+      console.log("🎤 Requesting microphone for call...");
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: false,
       });
+      console.log("✅ Microphone granted for call");
       localStreamRef.current = stream;
       const pc = new RTCPeerConnection(rtcConfig);
       pcRef.current = pc;
+      console.log("🔗 RTCPeerConnection created with config:", rtcConfig);
 
       // add tracks
       stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
       pc.onicecandidate = (e) => {
         if (e.candidate) {
+          console.log("🧊 Sending ICE candidate to peer");
           socket.emit("call:candidate", {
             to: selectedUser._id,
             candidate: e.candidate,
@@ -178,10 +186,11 @@ function ChatHeader() {
 
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
+      console.log("📡 Sending call offer to:", selectedUser._id);
 
       socket.emit("call:offer", { to: selectedUser._id, sdp: offer.sdp });
     } catch (err) {
-      console.error(err);
+      console.error("❌ Error starting call:", err);
       setCallState(null);
     }
   };
