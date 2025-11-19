@@ -20,11 +20,18 @@ if (ffmpegStatic) {
 export const getAllContacts = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
-    const filteredUsers = await User.find({
-      _id: { $ne: loggedInUserId },
-    }).select("-password");
 
-    res.status(200).json(filteredUsers);
+    // Only return users that are in the logged-in user's contacts
+    const user = await User.findById(loggedInUserId).populate(
+      "contacts",
+      "fullName email profilePic"
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user.contacts || []);
   } catch (error) {
     console.log("Error in getAllContacts:", error);
     res.status(500).json({ message: "Server error" });

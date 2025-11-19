@@ -1,6 +1,7 @@
 import {
   BellIcon,
   BellOffIcon,
+  HashIcon,
   LogOutIcon,
   Volume2Icon,
   VolumeOffIcon,
@@ -9,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { notify, requestNotificationPermission } from "../lib/notifications";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
+import SetContactId from "./SetContactId";
 
 const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 
@@ -16,6 +18,7 @@ function ProfileHeader() {
   const { logout, authUser, updateProfile } = useAuthStore();
   const { isSoundEnabled, toggleSound } = useChatStore();
   const [selectedImg, setSelectedImg] = useState(null);
+  const [showSetContactId, setShowSetContactId] = useState(false);
   const [notifStatus, setNotifStatus] = useState(() => {
     if (typeof Notification !== "undefined") return Notification.permission;
     return "default";
@@ -80,13 +83,35 @@ function ProfileHeader() {
             <h3 className="text-slate-200 font-medium text-base max-w-[180px] truncate">
               {authUser.fullName}
             </h3>
-
-            <p className="text-slate-400 text-xs">Online</p>
+            {authUser.contactId ? (
+              <p className="text-cyan-400 text-xs font-mono">
+                #{authUser.contactId}
+              </p>
+            ) : (
+              <button
+                onClick={() => setShowSetContactId(true)}
+                className="text-xs text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-1">
+                <HashIcon className="w-3 h-3" />
+                <span>Set Contact ID</span>
+              </button>
+            )}
           </div>
         </div>
 
         {/* BUTTONS */}
         <div className="flex gap-4 items-center">
+          {/* CONTACT ID */}
+          <button
+            onClick={() => setShowSetContactId(true)}
+            className="text-slate-400 hover:text-slate-200 transition-colors"
+            title={
+              authUser.contactId
+                ? `Your Contact ID: ${authUser.contactId}`
+                : "Set your Contact ID"
+            }>
+            <HashIcon className="size-5" />
+          </button>
+
           {/* NOTIFICATIONS */}
           <button
             onClick={async () => {
@@ -142,6 +167,17 @@ function ProfileHeader() {
           </button>
         </div>
       </div>
+
+      {/* Set Contact ID Modal */}
+      {showSetContactId && (
+        <SetContactId
+          onClose={() => setShowSetContactId(false)}
+          onSuccess={(updatedUser) => {
+            // Update auth user with new contact ID
+            // The setContactId already handles this through the store
+          }}
+        />
+      )}
     </div>
   );
 }

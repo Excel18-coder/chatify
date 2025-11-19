@@ -20,6 +20,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    contactId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allow null/undefined but enforce uniqueness when set
+      default: null,
+    },
+    contacts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true } // createdAt & updatedAt
 );

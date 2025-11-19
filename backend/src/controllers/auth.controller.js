@@ -53,6 +53,7 @@ export const signup = async (req, res) => {
         fullName: savedUser.fullName,
         email: savedUser.email,
         profilePic: savedUser.profilePic,
+        contactId: savedUser.contactId,
         token,
       });
 
@@ -98,6 +99,7 @@ export const login = async (req, res) => {
       fullName: user.fullName,
       email: user.email,
       profilePic: user.profilePic,
+      contactId: user.contactId,
       token,
     });
   } catch (error) {
