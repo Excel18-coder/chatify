@@ -2,6 +2,8 @@
 
 android {
   compileOptions {
+    // Use Java 17 to match the local JDK. Generated files sometimes set
+    // Java 21 which will fail when JDK 17 is installed.
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
   }

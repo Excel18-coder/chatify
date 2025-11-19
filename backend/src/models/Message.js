@@ -20,6 +20,18 @@ const messageSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    // array of userIds who have deleted this message for themselves
+    deletedFor: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    // if true the message was deleted for everyone (content removed/replaced)
+    deletedForEveryone: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

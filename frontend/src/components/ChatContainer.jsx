@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
+import MessageOptions from "./MessageOptions";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceholder";
 
@@ -59,6 +60,9 @@ function ChatContainer() {
                       ? "bg-cyan-600 text-white"
                       : "bg-slate-800 text-slate-200"
                   }`}>
+                  <div className="absolute top-1 right-1">
+                    <MessageOptions message={msg} />
+                  </div>
                   {msg.image && (
                     <img
                       src={msg.image}

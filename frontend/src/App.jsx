@@ -1,18 +1,23 @@
+import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
+import PageLoader from "./components/PageLoader";
 import ChatPage from "./pages/ChatPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import { useAuthStore } from "./store/useAuthStore";
-import { useEffect } from "react";
-import PageLoader from "./components/PageLoader";
 
 import { Toaster } from "react-hot-toast";
+import { requestNotificationPermission } from "./lib/notifications";
 
 function App() {
   const { checkAuth, isCheckingAuth, authUser } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
+    // Request local/browser notification permission on app start (best-effort)
+    requestNotificationPermission().catch((e) =>
+      console.log("notif perm err", e)
+    );
   }, [checkAuth]);
 
   if (isCheckingAuth) return <PageLoader />;
@@ -25,9 +30,18 @@ function App() {
       <div className="absolute bottom-0 -right-4 size-96 bg-cyan-500 opacity-20 blur-[100px]" />
 
       <Routes>
-        <Route path="/" element={authUser ? <ChatPage /> : <Navigate to={"/login"} />} />
-        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />
-        <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />} />
+        <Route
+          path="/"
+          element={authUser ? <ChatPage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
+        />
       </Routes>
 
       <Toaster />
