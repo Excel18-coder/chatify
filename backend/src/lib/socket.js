@@ -1,15 +1,22 @@
-import { Server } from "socket.io";
-import http from "http";
 import express from "express";
-import { ENV } from "./env.js";
+import http from "http";
+import { Server } from "socket.io";
 import { socketAuthMiddleware } from "../middleware/socket.auth.middleware.js";
+import { ENV } from "./env.js";
 
 const app = express();
 const server = http.createServer(app);
 
+// Allow socket.io connections from the same set of allowed origins.
+const allowedSocketOrigins = [
+  ENV.CLIENT_URL,
+  "https://localhost",
+  "https://clevery.sevalla.app",
+].filter(Boolean);
+
 const io = new Server(server, {
   cors: {
-    origin: [ENV.CLIENT_URL],
+    origin: allowedSocketOrigins,
     credentials: true,
   },
 });
@@ -42,4 +49,4 @@ io.on("connection", (socket) => {
   });
 });
 
-export { io, app, server };
+export { app, io, server };

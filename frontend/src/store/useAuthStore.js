@@ -1,9 +1,14 @@
-import { create } from "zustand";
-import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
+import { create } from "zustand";
+import { axiosInstance } from "../lib/axios";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
+// Backend URL used for socket.io connection. Allow override with VITE_BACKEND_URL.
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL ||
+  (import.meta.env.MODE === "development"
+    ? "http://localhost:3000"
+    : "https://clevery.sevalla.app");
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -35,7 +40,11 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Account created successfully!");
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      const msg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      toast.error(msg);
     } finally {
       set({ isSigningUp: false });
     }
@@ -51,7 +60,11 @@ export const useAuthStore = create((set, get) => ({
 
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      const msg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      toast.error(msg);
     } finally {
       set({ isLoggingIn: false });
     }
@@ -76,7 +89,11 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Profile updated successfully");
     } catch (error) {
       console.log("Error in update profile:", error);
-      toast.error(error.response.data.message);
+      const msg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      toast.error(msg);
     }
   },
 
@@ -84,8 +101,9 @@ export const useAuthStore = create((set, get) => ({
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
 
-    const socket = io(BASE_URL, {
-      withCredentials: true, // this ensures cookies are sent with the connection
+    const socket = io(BACKEND_URL, {
+      withCredentials: true, // ensures cookies are sent with the connection
+      transports: ["websocket", "polling"],
     });
 
     socket.connect();

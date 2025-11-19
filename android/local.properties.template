@@ -1,0 +1,14 @@
+# local.properties.template
+# Copy this file to local.properties and set sdk.dir to your Android SDK path.
+# Do NOT commit local.properties to version control.
+
+# Example (Linux/macOS):
+# sdk.dir=/home/<your-user>/Android/Sdk
+
+# Example (Windows):
+# sdk.dir=C:\Users\<your-user>\AppData\Local\Android\Sdk
+
+# If you prefer environment variables, set ANDROID_HOME to the SDK path instead of creating local.properties.
+# For example (bash):
+# export ANDROID_HOME=/home/<your-user>/Android/Sdk
+# export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
