@@ -12,8 +12,8 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 
 function ChatHeader() {
-  const { selectedUser, setSelectedUser } = useChatStore();
-  const { onlineUsers } = useAuthStore();
+  const { selectedUser, setSelectedUser, allContacts } = useChatStore();
+  const { onlineUsers, authUser } = useAuthStore();
   const isOnline = onlineUsers.includes(selectedUser._id);
   const socket = useAuthStore((s) => s.socket);
 
@@ -25,7 +25,10 @@ function ChatHeader() {
   const [muted, setMuted] = useState(false);
   const [callTime, setCallTime] = useState(0); // seconds
   const [onHold, setOnHold] = useState(false);
-  const incomingFromRef = useRef(null);
+
+  // Store complete caller information, not just ID
+  const [incomingCall, setIncomingCall] = useState(null); // {userId, fullName, profilePic, sdp}
+  const [activeCallPeer, setActiveCallPeer] = useState(null); // Currently active call peer info
 
   // STUN/TURN servers. You can set VITE_TURN_SERVERS in .env as a JSON array
   // Example: VITE_TURN_SERVERS='[{"urls":"turn:turn.example.com:3478","username":"user","credential":"pass"}]'
@@ -57,13 +60,27 @@ function ChatHeader() {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("call:incoming", async ({ from, sdp }) => {
-      // incoming call from 'from'
-      console.log("📞 Incoming call from:", from);
-      incomingFromRef.current = from;
+    socket.on("call:incoming", async ({ from, fromUser, sdp }) => {
+      // incoming call with full user information
+      console.log("📞 Incoming call from:", fromUser?.fullName || from);
+
+      // Find caller info from allContacts if not provided
+      let callerInfo = fromUser;
+      if (!callerInfo) {
+        callerInfo = allContacts.find((u) => u._id === from) || {
+          _id: from,
+          fullName: "Unknown User",
+          profilePic: "/avatar.png",
+        };
+      }
+
+      setIncomingCall({
+        userId: from,
+        fullName: callerInfo.fullName,
+        profilePic: callerInfo.profilePic || "/avatar.png",
+        sdp: sdp,
+      });
       setCallState("incoming");
-      // store remote sdp until accepted
-      socket._incomingSdp = sdp;
     });
 
     socket.on("call:answered", async ({ from, sdp }) => {
@@ -104,6 +121,7 @@ function ChatHeader() {
   }, [socket]);
 
   const endCall = () => {
+    console.log("☎️ Ending call...");
     try {
       if (pcRef.current) {
         pcRef.current.close();
@@ -124,15 +142,26 @@ function ChatHeader() {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error("Error during cleanup:", err);
+    }
     setCallState(null);
-    incomingFromRef.current = null;
+    setIncomingCall(null);
+    setActiveCallPeer(null);
   };
 
   const startCall = async () => {
     if (!socket || !selectedUser) return;
     console.log("📞 Starting call to:", selectedUser.fullName);
+
+    // Set active call peer info
+    setActiveCallPeer({
+      userId: selectedUser._id,
+      fullName: selectedUser.fullName,
+      profilePic: selectedUser.profilePic || "/avatar.png",
+    });
     setCallState("calling");
+
     try {
       console.log("🎤 Requesting microphone for call...");
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -143,7 +172,8 @@ function ChatHeader() {
       localStreamRef.current = stream;
       const pc = new RTCPeerConnection(rtcConfig);
       pcRef.current = pc;
-      console.log("🔗 RTCPeerConnection created with config:", rtcConfig);
+      console.log("🔗 RTCPeerConnection created");
+      console.log("📡 ICE Servers:", rtcConfig.iceServers);
 
       // add tracks
       stream.getTracks().forEach((track) => pc.addTrack(track, stream));
@@ -186,32 +216,53 @@ function ChatHeader() {
 
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
-      console.log("📡 Sending call offer to:", selectedUser._id);
+      console.log("📡 Sending call offer to:", selectedUser.fullName);
 
-      socket.emit("call:offer", { to: selectedUser._id, sdp: offer.sdp });
+      // Send offer with caller information
+      socket.emit("call:offer", {
+        to: selectedUser._id,
+        sdp: offer.sdp,
+        fromUser: {
+          _id: authUser._id,
+          fullName: authUser.fullName,
+          profilePic: authUser.profilePic,
+        },
+      });
     } catch (err) {
       console.error("❌ Error starting call:", err);
       setCallState(null);
+      setActiveCallPeer(null);
     }
   };
 
   const acceptCall = async () => {
-    const from = incomingFromRef.current;
-    if (!socket || !from) return;
+    if (!socket || !incomingCall) return;
+
+    console.log("✅ Accepting call from:", incomingCall.fullName);
+    setActiveCallPeer(incomingCall); // Set the caller as active peer
+
     try {
+      console.log("🎤 Requesting microphone to accept call...");
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: false,
       });
+      console.log("✅ Microphone granted");
       localStreamRef.current = stream;
       const pc = new RTCPeerConnection(rtcConfig);
       pcRef.current = pc;
+      console.log("🔗 RTCPeerConnection created");
+      console.log("📡 ICE Servers:", rtcConfig.iceServers);
 
       stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
       pc.onicecandidate = (e) => {
         if (e.candidate) {
-          socket.emit("call:candidate", { to: from, candidate: e.candidate });
+          console.log("🧊 Sending ICE candidate to caller");
+          socket.emit("call:candidate", {
+            to: incomingCall.userId,
+            candidate: e.candidate,
+          });
         }
       };
 
@@ -219,47 +270,65 @@ function ChatHeader() {
         try {
           const remoteStream = event.streams && event.streams[0];
           if (remoteAudioRef.current && remoteStream) {
+            console.log("🔊 Remote audio stream received");
             remoteAudioRef.current.srcObject = remoteStream;
           }
         } catch (e) {
-          console.error(e);
+          console.error("❌ Error attaching remote stream:", e);
         }
       };
 
       pc.onconnectionstatechange = () => {
         if (!pcRef.current) return;
         const state = pcRef.current.connectionState;
+        console.log("🔗 Connection state:", state);
         if (
           state === "disconnected" ||
           state === "failed" ||
           state === "closed"
         ) {
+          console.log("📞 Call ended due to connection state:", state);
           endCall();
         }
       };
 
-      // set remote offer
-      const incomingSdp = socket._incomingSdp;
-      if (incomingSdp)
-        await pc.setRemoteDescription({ type: "offer", sdp: incomingSdp });
+      // set remote offer from incoming call
+      if (incomingCall.sdp) {
+        console.log("📥 Setting remote offer");
+        await pc.setRemoteDescription({ type: "offer", sdp: incomingCall.sdp });
+      }
 
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
+      console.log("📤 Sending answer to caller");
 
-      socket.emit("call:answer", { to: from, sdp: answer.sdp });
+      socket.emit("call:answer", {
+        to: incomingCall.userId,
+        sdp: answer.sdp,
+        fromUser: {
+          _id: authUser._id,
+          fullName: authUser.fullName,
+          profilePic: authUser.profilePic,
+        },
+      });
+
       setCallState("in-call");
+      setIncomingCall(null); // Clear incoming call state
     } catch (err) {
-      console.error(err);
+      console.error("❌ Error accepting call:", err);
       endCall();
     }
   };
 
-  const getPeerId = () =>
-    incomingFromRef.current || (selectedUser && selectedUser._id);
-
   const hangup = () => {
-    const peer = getPeerId();
-    if (socket && peer) socket.emit("call:hangup", { to: peer });
+    const peerId = activeCallPeer?.userId || incomingCall?.userId;
+    console.log(
+      "📴 Hanging up call with:",
+      activeCallPeer?.fullName || incomingCall?.fullName
+    );
+    if (socket && peerId) {
+      socket.emit("call:hangup", { to: peerId });
+    }
     endCall();
   };
 
@@ -362,20 +431,34 @@ function ChatHeader() {
       <audio ref={remoteAudioRef} autoPlay className="hidden" />
 
       {/* calling spinner/overlay for outgoing calls */}
-      {callState === "calling" && (
+      {callState === "calling" && activeCallPeer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50" />
-          <div className="relative bg-slate-800 rounded-lg p-4 w-11/12 max-w-sm text-center">
-            <div className="flex flex-col items-center gap-3">
+          <div className="relative bg-slate-800 rounded-lg p-6 w-11/12 max-w-sm text-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="avatar">
+                <div className="w-20 rounded-full">
+                  <img
+                    src={activeCallPeer.profilePic}
+                    alt={activeCallPeer.fullName}
+                  />
+                </div>
+              </div>
               <div className="w-12 h-12 rounded-full border border-slate-600 flex items-center justify-center">
                 <div className="w-5 h-5 border-4 border-slate-400 border-t-transparent rounded-full animate-spin" />
               </div>
-              <h3 className="text-white">Calling {selectedUser.fullName}...</h3>
+              <div>
+                <h3 className="text-white text-lg font-medium">
+                  {activeCallPeer.fullName}
+                </h3>
+                <p className="text-slate-400 text-sm">Calling...</p>
+              </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => hangup()}
-                  className="px-3 py-2 bg-red-600 rounded">
-                  Hang up
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg flex items-center gap-2">
+                  <PhoneOffIcon className="w-4 h-4" />
+                  <span>Cancel</span>
                 </button>
               </div>
             </div>
@@ -384,12 +467,20 @@ function ChatHeader() {
       )}
 
       {/* in-call controls (small bar) */}
-      {callState === "in-call" && (
+      {callState === "in-call" && activeCallPeer && (
         <div className="fixed bottom-4 right-4 z-50">
           <div className="bg-slate-800/90 text-white rounded-lg px-4 py-2 flex items-center gap-3 shadow-lg">
             <div className="flex items-center gap-3">
+              <div className="avatar">
+                <div className="w-10 rounded-full">
+                  <img
+                    src={activeCallPeer.profilePic}
+                    alt={activeCallPeer.fullName}
+                  />
+                </div>
+              </div>
               <div className="flex flex-col">
-                <span className="font-medium">{selectedUser.fullName}</span>
+                <span className="font-medium">{activeCallPeer.fullName}</span>
                 <span className="text-sm text-slate-300">
                   {formatTime(callTime)}
                 </span>
@@ -424,24 +515,39 @@ function ChatHeader() {
         </div>
       )}
 
-      {callState === "incoming" && (
+      {callState === "incoming" && incomingCall && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50" />
-          <div className="relative bg-slate-800 rounded-lg p-4 w-11/12 max-w-sm">
-            <h3 className="text-white mb-2">
-              Incoming call from {selectedUser?.fullName || "Unknown"}
-            </h3>
-            <div className="flex gap-3">
-              <button
-                onClick={() => acceptCall()}
-                className="px-3 py-2 bg-green-600 rounded">
-                ✅ Accept
-              </button>
-              <button
-                onClick={() => endCall()}
-                className="px-3 py-2 bg-red-600 rounded">
-                ❌ Decline
-              </button>
+          <div className="relative bg-slate-800 rounded-lg p-6 w-11/12 max-w-sm">
+            <div className="flex flex-col items-center gap-4">
+              <div className="avatar">
+                <div className="w-20 rounded-full ring-4 ring-green-500 ring-offset-2 ring-offset-slate-800">
+                  <img
+                    src={incomingCall.profilePic}
+                    alt={incomingCall.fullName}
+                  />
+                </div>
+              </div>
+              <div className="text-center">
+                <h3 className="text-white text-lg font-medium">
+                  {incomingCall.fullName}
+                </h3>
+                <p className="text-slate-400 text-sm">Incoming call...</p>
+              </div>
+              <div className="flex gap-4 w-full">
+                <button
+                  onClick={() => endCall()}
+                  className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg flex items-center justify-center gap-2">
+                  <PhoneOffIcon className="w-5 h-5" />
+                  <span>Decline</span>
+                </button>
+                <button
+                  onClick={() => acceptCall()}
+                  className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 rounded-lg flex items-center justify-center gap-2">
+                  <PhoneCallIcon className="w-5 h-5" />
+                  <span>Accept</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

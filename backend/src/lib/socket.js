@@ -48,18 +48,43 @@ io.on("connection", (socket) => {
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 
-  // WebRTC signaling: forward offer/answer/candidates to receiver
-  socket.on("call:offer", ({ to, sdp }) => {
+  // WebRTC signaling: forward offer/answer/candidates to receiver with full user info
+  socket.on("call:offer", ({ to, sdp, fromUser }) => {
     const target = userSocketMap[to];
     if (target) {
-      io.to(target).emit("call:incoming", { from: userId, sdp });
+      // Forward the call with caller information
+      io.to(target).emit("call:incoming", {
+        from: userId,
+        sdp,
+        fromUser: fromUser || {
+          _id: userId,
+          fullName: socket.user.fullName,
+          profilePic: socket.user.profilePic,
+        },
+      });
+      console.log(
+        `📞 Call offer forwarded from ${socket.user.fullName} to user ${to}`
+      );
+    } else {
+      console.log(`❌ User ${to} is not online to receive call`);
     }
   });
 
-  socket.on("call:answer", ({ to, sdp }) => {
+  socket.on("call:answer", ({ to, sdp, fromUser }) => {
     const target = userSocketMap[to];
     if (target) {
-      io.to(target).emit("call:answered", { from: userId, sdp });
+      io.to(target).emit("call:answered", {
+        from: userId,
+        sdp,
+        fromUser: fromUser || {
+          _id: userId,
+          fullName: socket.user.fullName,
+          profilePic: socket.user.profilePic,
+        },
+      });
+      console.log(
+        `✅ Call answer forwarded from ${socket.user.fullName} to user ${to}`
+      );
     }
   });
 
